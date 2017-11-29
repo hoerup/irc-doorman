@@ -19,7 +19,7 @@ import dk.thoerup.ircdoorman.login.LoginValidator;
 
 public class DoormanListener extends ListenerAdapter {
 	
-	static final int TIMETOLIVE = 60*1000;
+	static final int TIMETOLIVE = 2*60*60*1000;//Session ok for 2 hours
 	
 	
 	Map<String,Long> approvedHostMasks = new ConcurrentHashMap<>();
