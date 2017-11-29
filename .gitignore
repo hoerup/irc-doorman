@@ -1,6 +1,10 @@
 .gradle
 /build/
 
+#eclipse specific folders
+.settings
+.project
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
