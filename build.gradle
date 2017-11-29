@@ -20,6 +20,5 @@ dependencies {
 
 	compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 	
-	compile 'com.github.yanchenko:humantime:master-SNAPSHOT'
 }
 
