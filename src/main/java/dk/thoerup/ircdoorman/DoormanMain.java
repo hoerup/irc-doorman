@@ -14,6 +14,9 @@ import org.pircbotx.exception.IrcException;
 
 import com.google.common.base.Splitter;
 
+import dk.thoerup.ircdoorman.login.LoginValidator;
+import dk.thoerup.ircdoorman.login.LoginValidatorFactory;
+
 public class DoormanMain {
 	
 	static Logger logger = Logger.getLogger( DoormanMain.class.getName() );
@@ -54,14 +57,9 @@ public class DoormanMain {
 			configBuilder.setSocketFactory(new UtilSSLSocketFactory().trustAllCertificates());
 		}
 		
-		LoginValidator staticLogin = new LoginValidator() {
-			@Override
-			public boolean login(String username, String password)  {
-				return username.equals("test") && password.equals("test");
-			}			
-		};
+		LoginValidator login = LoginValidatorFactory.buildLoginValidator(p);
 		
-		configBuilder.getListenerManager().addListener(  new DoormanListener(staticLogin, channels) );
+		configBuilder.getListenerManager().addListener(  new DoormanListener( login, channels) );
 		
 
 		

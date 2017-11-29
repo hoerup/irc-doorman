@@ -15,6 +15,8 @@ import org.pircbotx.hooks.events.QuitEvent;
 
 import com.google.common.base.Splitter;
 
+import dk.thoerup.ircdoorman.login.LoginValidator;
+
 public class DoormanListener extends ListenerAdapter {
 	
 	static final int TIMETOLIVE = 60*1000;

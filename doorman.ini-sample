@@ -1,0 +1,26 @@
+host = irc.server.tld
+port = 6697
+usessl = true
+channels = #test, #test2
+serverpassword = 
+
+# implemented methods are
+# * static 
+# * ldap
+loginmethod = ldap
+
+#parameters for static login
+staticuser = test
+staticpass = test
+
+#parameters for ldap login
+# ldapurl contains proto ip and port for the ldap server to comunicate with
+# eg. ldap://1.2.3.4:389 or ldaps://1.2.3.4:636
+ldapurl = dap://1.2.3.4:389
+
+# ldapdomain is the domainname for users, if not provided as part of the entered username
+# in which users users are to be searched 
+#ldapdomain = 
+
+
+
