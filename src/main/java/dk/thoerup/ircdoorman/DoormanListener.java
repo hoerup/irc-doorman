@@ -23,9 +23,11 @@ public class DoormanListener extends ListenerAdapter {
 	Map<String,Long> approvedHostMasks = new ConcurrentHashMap<>();
 	
 	List<String> channels;
+	LoginValidator loginValidator;
 	
-	public DoormanListener(List<String> channels) {
+	public DoormanListener(LoginValidator loginValidator, List<String> channels) {
 		this.channels = channels;
+		this.loginValidator = loginValidator;
 	}
 
 	@Override
@@ -115,7 +117,9 @@ public class DoormanListener extends ListenerAdapter {
 		
 		String username = parts.get(1);
 		String password = parts.get(2);
-		if (username.equals("test") && password.equals("test")) {
+		
+		
+		if (loginValidator.login(username, password)) {
 			String mask = event.getUser().getHostmask();
 			long expire = System.currentTimeMillis() + TIMETOLIVE;
 			approvedHostMasks.put(mask, expire);

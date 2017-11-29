@@ -54,7 +54,14 @@ public class DoormanMain {
 			configBuilder.setSocketFactory(new UtilSSLSocketFactory().trustAllCertificates());
 		}
 		
-		configBuilder.getListenerManager().addListener(  new DoormanListener(channels) );
+		LoginValidator staticLogin = new LoginValidator() {
+			@Override
+			public boolean login(String username, String password)  {
+				return username.equals("test") && password.equals("test");
+			}			
+		};
+		
+		configBuilder.getListenerManager().addListener(  new DoormanListener(staticLogin, channels) );
 		
 
 		
