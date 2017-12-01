@@ -3,5 +3,5 @@ jdk: openjdk8
 
 # build
 script: 
-  - mvn clean package
+  - gradle clean build
 
