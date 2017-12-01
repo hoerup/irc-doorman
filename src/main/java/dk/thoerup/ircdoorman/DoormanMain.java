@@ -38,6 +38,10 @@ public class DoormanMain {
         String strChannels = p.getProperty("channels", ""); 
         List<String> channels = Splitter.on(",").trimResults().omitEmptyStrings().splitToList(strChannels);
         
+        String operuser = p.getProperty("operuser");
+        String operpass = p.getProperty("operpass");
+        
+        
 		
 		Configuration.Builder configBuilder = new org.pircbotx.Configuration.Builder()
 				.setAutoReconnectDelay(25)
@@ -59,7 +63,7 @@ public class DoormanMain {
 		
 		LoginValidator login = LoginValidatorFactory.buildLoginValidator(p);
 		
-		configBuilder.getListenerManager().addListener(  new DoormanListener( login, channels) );
+		configBuilder.getListenerManager().addListener(  new DoormanListener( login, channels, operuser, operpass) );
 		
 
 		
@@ -71,4 +75,6 @@ public class DoormanMain {
 		};		
 							
 	}
+	
+	
 }

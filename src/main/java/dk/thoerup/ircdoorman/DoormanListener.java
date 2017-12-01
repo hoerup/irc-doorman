@@ -5,19 +5,26 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import org.pircbotx.Channel;
+import org.pircbotx.ReplyConstants;
 import org.pircbotx.hooks.ListenerAdapter;
+import org.pircbotx.hooks.events.ConnectEvent;
 import org.pircbotx.hooks.events.JoinEvent;
 import org.pircbotx.hooks.events.KickEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
 import org.pircbotx.hooks.events.QuitEvent;
+import org.pircbotx.hooks.events.ServerResponseEvent;
 
 import com.google.common.base.Splitter;
 
 import dk.thoerup.ircdoorman.login.LoginValidator;
 
+
 public class DoormanListener extends ListenerAdapter {
+	
+	Logger logger = Logger.getLogger( DoormanListener.class.getName());
 	
 	static final int TIMETOLIVE = 2*60*60*1000;//Session ok for 2 hours
 	
@@ -26,10 +33,15 @@ public class DoormanListener extends ListenerAdapter {
 	
 	List<String> channels;
 	LoginValidator loginValidator;
+
+	String operuser;
+	String operpass;
 	
-	public DoormanListener(LoginValidator loginValidator, List<String> channels) {
+	public DoormanListener(LoginValidator loginValidator, List<String> channels, String operuser, String operpass) {
 		this.channels = channels;
 		this.loginValidator = loginValidator;
+		this.operuser = operuser;
+		this.operpass = operpass;
 	}
 
 	@Override
@@ -59,6 +71,13 @@ public class DoormanListener extends ListenerAdapter {
 		
 
 	}
+	
+	@Override
+	public void onConnect(ConnectEvent event) {
+
+		event.getBot().sendRaw().rawLine("OPER " + operuser + " " + operpass);
+	}
+	
 
 
 	@Override
@@ -171,6 +190,17 @@ public class DoormanListener extends ListenerAdapter {
 		}
 	}
 	
-	
-	
+	@Override
+	public void onServerResponse(ServerResponseEvent event) {
+				
+		if (event.getCode() == ReplyConstants.RPL_YOUREOPER) { // our oper credentials has been accepted
+			logger.info("oper credentials accepted by server(RPL_YOUREOPER)");
+		}
+		
+		if ( event.getCode() == ReplyConstants.ERR_NOOPERHOST) {			
+			logger.severe( "Invalid oper config: " + event.getRawLine() );
+			
+			System.exit(0);
+		}
+	}
 }

@@ -4,6 +4,10 @@ usessl = true
 channels = #test, #test2
 serverpassword = 
 
+#O-line username / password
+operuser = 
+operpass = 
+
 # implemented methods are
 # * static 
 # * ldap
