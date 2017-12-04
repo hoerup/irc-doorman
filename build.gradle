@@ -10,13 +10,12 @@ version '1.0'
 
 repositories {
 	jcenter()
-	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
 
 	compile group: 'com.google.guava', name: 'guava', version: '19.0'
-	compile group: 'org.pircbotx', name: 'pircbotx', version: '2.1'
+	compile group: 'org.pircbotx', name: 'pircbotx', version: '2.2-SNAPSHOT'
 
 	compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 	
