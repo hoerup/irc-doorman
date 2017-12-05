@@ -4,20 +4,24 @@ package dk.thoerup.ircdoorman;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import org.pircbotx.Channel;
+import org.pircbotx.PircBotX;
 import org.pircbotx.ReplyConstants;
 import org.pircbotx.hooks.ListenerAdapter;
-import org.pircbotx.hooks.events.ConnectEvent;
 import org.pircbotx.hooks.events.JoinEvent;
 import org.pircbotx.hooks.events.KickEvent;
+import org.pircbotx.hooks.events.MotdEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
 import org.pircbotx.hooks.events.QuitEvent;
 import org.pircbotx.hooks.events.ServerResponseEvent;
 
 import com.google.common.base.Splitter;
+import com.google.common.util.concurrent.AbstractScheduledService.Scheduler;
 
 import dk.thoerup.ircdoorman.login.LoginValidator;
 
@@ -28,6 +32,7 @@ public class DoormanListener extends ListenerAdapter {
 	
 	static final int TIMETOLIVE = 2*60*60*1000;//Session ok for 2 hours
 	
+	Timer timer;
 	
 	Map<String,Long> approvedHostMasks = new ConcurrentHashMap<>();
 	
@@ -73,9 +78,14 @@ public class DoormanListener extends ListenerAdapter {
 	}
 	
 	@Override
-	public void onConnect(ConnectEvent event) {
+	public void onMotd(MotdEvent event) {
 
 		event.getBot().sendRaw().rawLine("OPER " + operuser + " " + operpass);
+		
+		if (timer == null) {
+			timer = new Timer();
+			timer.schedule( new PingTimerTask(event.getBot()), 60*1000L, 60*1000L);
+		}
 	}
 	
 
@@ -203,4 +213,24 @@ public class DoormanListener extends ListenerAdapter {
 			System.exit(0);
 		}
 	}
+	
+
+	public static class PingTimerTask extends TimerTask {
+		
+		private final PircBotX bot;
+		
+		public PingTimerTask(PircBotX bot) {
+			this.bot = bot;
+		}
+
+		@Override
+		public void run() {
+			if (bot.isConnected()) {
+				bot.sendRaw().rawLine("PING");
+			}
+			
+		}
+		
+	}
+	
 }
