@@ -51,7 +51,8 @@ public class DoormanListener extends ListenerAdapter {
 	@Override
 	public void onJoin(JoinEvent event) throws Exception {
 		if (event.getBot().getUserBot().equals( event.getUser() )) {
-			return; //don't react on self
+			event.getChannel().send().setMode("+o", event.getBot().getNick() );
+			return;
 		}
 		
 		String mask = event.getUser().getHostmask();
