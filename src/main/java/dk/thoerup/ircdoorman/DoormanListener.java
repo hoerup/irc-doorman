@@ -21,7 +21,6 @@ import org.pircbotx.hooks.events.QuitEvent;
 import org.pircbotx.hooks.events.ServerResponseEvent;
 
 import com.google.common.base.Splitter;
-import com.google.common.util.concurrent.AbstractScheduledService.Scheduler;
 
 import dk.thoerup.ircdoorman.login.LoginValidator;
 
