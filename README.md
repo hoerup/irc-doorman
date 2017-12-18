@@ -8,7 +8,7 @@
 * You need a host with openjdk-8-jdk and gradle
 * git clone https://github.com/hoerup/irc-doorman.git
 * cd irc-doorman
-* gradle build shadow
+* gradle shadow
 
 ## running
 * cp doorman.ini-sample doorman.ini
