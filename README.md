@@ -13,4 +13,4 @@
 ## running
 * cp doorman.ini-sample doorman.ini
 * edit doorman.ini and adjust to your settings
-* start bot with: java -cp build/libs/irc-doorman-1.0-all.jar dk.thoerup.ircdoorman.DoormanMain
+* start bot with: java -jar build/libs/irc-doorman-1.0-all.jar
